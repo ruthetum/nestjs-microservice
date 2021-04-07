@@ -1,9 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
+import { PostService } from './post.service';
 
 @Controller('posts')
 export class PostController {
+
+    constructor(private postService: PostService) {}
+
     @Get()
-    default() {
-        return 'all member';
+    all() {
+        return this.postService.all();
     }
 }
