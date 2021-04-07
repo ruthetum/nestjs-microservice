@@ -12,4 +12,8 @@ export class PostService {
     async all(): Promise<Post[]> {
         return this.postRespository.find();
     }
+
+    async create(data): Promise<Post> {
+        return this.postRespository.save(data);
+    }
 }
