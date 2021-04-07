@@ -13,6 +13,10 @@ export class PostService {
         return this.postRespository.find();
     }
 
+    async get(id: number): Promise<Post> {
+        return this.postRespository.findOne({id});
+    }
+
     async create(data): Promise<Post> {
         return this.postRespository.save(data);
     }
