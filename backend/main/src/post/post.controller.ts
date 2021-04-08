@@ -12,8 +12,26 @@ export class PostController {
        return this.postService.all();
     }
 
-    @EventPattern('hello')
-    async hello(data: string) {
-        console.log(data);
+    @EventPattern('post_created')
+    async postCreated(post: any) {
+        await this.postService.create({
+            title: post.title,
+            content: post.content,
+            likes: post.likes
+        })
+    }
+
+    @EventPattern('post_updated')
+    async postUpdated(post: any) {
+        await this.postService.update(post.id, {
+            title: post.title,
+            content: post.content,
+            likes: post.likes
+        })
+    }
+
+    @EventPattern('post_deleted')
+    async postDeleted(id: number) {
+        await this.postService.delete(id);
     }
 }

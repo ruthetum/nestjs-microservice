@@ -13,7 +13,6 @@ export class PostController {
 
     @Get()
     async all() {
-        this.client.emit('hello', 'hello from RabbitMQ');
         return this.postService.all();
     }
 
@@ -27,10 +26,14 @@ export class PostController {
         @Body('title') title: string,
         @Body('content') content: string,
     ) {
-        return this.postService.create({
+        const post = this.postService.create({
             title,
             content
         });
+
+        this.client.emit('post_created', post);
+
+        return post;
     }
 
     @Put(':id')
@@ -39,14 +42,22 @@ export class PostController {
         @Body('title') title: string,
         @Body('content') content: string
     ) {
-        return this.postService.update(id, {
+        await this.postService.update(id, {
             title,
             content
         });
+
+        const post = await this.postService.get(id);
+
+        this.client.emit('post_updated', post);
+
+        return post;
     }
 
     @Delete(':id')
     async delete(@Param('id') id: number) {
-        return this.postService.delete(id);
+        await this.postService.delete(id);
+
+        this.client.emit('post_deleted', id);
     }
 }
