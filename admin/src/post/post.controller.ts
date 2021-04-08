@@ -60,4 +60,13 @@ export class PostController {
 
         this.client.emit('post_deleted', id);
     }
+
+    @Post(':id/like')
+    async like(@Param('id') id: number) {
+        const post = await this.postService.get(id);
+
+        return this.postService.update(id, {
+            likes: post.likes + 1
+        })
+    }
 }
