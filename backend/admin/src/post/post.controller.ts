@@ -1,13 +1,19 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import {Controller, Get, Post, Body, Param, Put, Delete, Inject} from '@nestjs/common';
 import { PostService } from './post.service';
+import {ClientProxy} from "@nestjs/microservices";
 
 @Controller('posts')
 export class PostController {
 
-    constructor(private postService: PostService) {}
+    constructor(
+        private postService: PostService,
+        @Inject('POST_SERVICE') private readonly client: ClientProxy
+    ) {
+    }
 
     @Get()
     async all() {
+        this.client.emit('hello', 'hello from RabbitMQ');
         return this.postService.all();
     }
 
