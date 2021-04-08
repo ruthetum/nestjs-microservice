@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
 import { PostService } from './post.service';
 
 @Controller('posts')
@@ -22,6 +22,18 @@ export class PostController {
         @Body('content') content: string,
     ) {
         return this.postService.create({
+            title,
+            content
+        });
+    }
+
+    @Put(':id')
+    async update(
+        @Param('id') id: number,
+        @Body('title') title: string,
+        @Body('content') content: string
+    ) {
+        return this.postService.update(id, {
             title,
             content
         });

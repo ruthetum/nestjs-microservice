@@ -20,4 +20,8 @@ export class PostService {
     async create(data): Promise<Post> {
         return this.postRespository.save(data);
     }
+
+    async update(id: number, data): Promise<any> {
+        return this.postRespository.update(id, data);
+    }
 }
