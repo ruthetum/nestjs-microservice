@@ -24,4 +24,8 @@ export class PostService {
     async update(id: number, data): Promise<any> {
         return this.postRespository.update(id, data);
     }
+
+    async delete(id: number): Promise<any> {
+        return this.postRespository.delete(id);
+    }
 }
